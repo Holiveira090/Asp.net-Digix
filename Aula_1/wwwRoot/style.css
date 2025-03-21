@@ -1,0 +1,37 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+header{
+    background-color: black;
+    display: flex;
+    height: 200px;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    padding: 10px;
+}
+.titulos{
+    color: white;
+    padding: 10px;
+}
+body{
+    background-color: darkblue;
+}
+#imagem{
+    margin-top: 30px;
+    height: 100px;
+    width: 100px;
+    box-shadow: rgba(255, 255, 255, 0.35) 0px 0px 6px 3px;
+    border-radius: 10px;
+}
+.sobre{
+    margin-top: 30px;
+    max-width: 30%;
+}
+.sobre p{
+    color: white;
+    word-break: break-word;
+    font-size: 20px;
+}
