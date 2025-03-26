@@ -9,6 +9,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Aula_2_EndPoint", "Aula_2_E
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Aula_3_EndPoint_AspNet_Banco", "Aula_3_EndPoint_AspNet_Banco\Aula_3_EndPoint_AspNet_Banco.csproj", "{6685B93A-58AE-44A3-9298-47904AF099E9}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Aula_4_exercicio_EndPoint", "Aula_4_exercicio_EndPoint\Aula_4_exercicio_EndPoint.csproj", "{C176620B-D334-425F-B8B1-DAF7CF51BFAD}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Aula_4_Exercicio_Endpoint_JS", "Aula_4_Exercicio_Endpoint_JS\Aula_4_Exercicio_Endpoint_JS.csproj", "{2D43CEB3-0E3A-478F-A055-0620ACDFCD3C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -34,5 +38,13 @@ Global
 		{6685B93A-58AE-44A3-9298-47904AF099E9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6685B93A-58AE-44A3-9298-47904AF099E9}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6685B93A-58AE-44A3-9298-47904AF099E9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C176620B-D334-425F-B8B1-DAF7CF51BFAD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C176620B-D334-425F-B8B1-DAF7CF51BFAD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C176620B-D334-425F-B8B1-DAF7CF51BFAD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C176620B-D334-425F-B8B1-DAF7CF51BFAD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2D43CEB3-0E3A-478F-A055-0620ACDFCD3C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2D43CEB3-0E3A-478F-A055-0620ACDFCD3C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2D43CEB3-0E3A-478F-A055-0620ACDFCD3C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2D43CEB3-0E3A-478F-A055-0620ACDFCD3C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

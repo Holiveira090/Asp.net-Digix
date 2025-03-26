@@ -1,0 +1,3 @@
+# Ignorar os arquivos Bin e Obj
+**/Bin
+**/Obj
