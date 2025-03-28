@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Crud dos Usuarios</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <a href="index.html">
+        <button>Cadastro de usuario</button>
+    </a>
+    <div class="container">
+        <h1>Cadastro de Maquina</h1>
+
+        <form id="maquinaform">
+            <!-- <input type="hidden" id="id"> -->
+            <input type="hidden" id="id" placeholder="ID da Maquina">
+            <input type="text" id="tipo" placeholder="Tipo" required>
+            <input type="number" id="velocidade" placeholder="velocidade" required>
+            <input type="number" id="harddisk" placeholder="Hard Disk" required>
+            <input type="number" id="placa_rede" placeholder="Placa de Rede" required>
+            <input type="number" id="memoria_ram" placeholder="Memoria Ram" required>
+            <input type="number" id="fk_usuario" placeholder="Usuario" required>
+            <button type="submit">Salvar</button>
+        </form>
+
+        <h2>Lista de Maquinas</h2>
+        <table id="tabelaMaquinas">
+            <thead>
+                <tr>
+                    <th>Id</th>
+                    <th>Tipo</th>
+                    <th>velocidade</th>
+                    <th>Hard Disk</th>
+                    <th>Placa de Rede</th>
+                    <th>Memoria Ram</th>
+                    <th>Usuario</th>
+                    <th>Ações</th>
+                </tr>
+            </thead>
+            <!-- tbody é preenchimento dinamimente com Js -->
+            <tbody>
+            </tbody>
+        </table>
+    </div>
+    <script src="maquina.js"></script>
+</body>
+
+</html>

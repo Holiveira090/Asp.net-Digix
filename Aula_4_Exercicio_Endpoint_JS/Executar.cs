@@ -4,7 +4,6 @@ using System.Linq;
 using System.Threading.Tasks;
 using Aula_4_Exercicio_Endpoint_JS.Database;
 using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -13,46 +12,50 @@ namespace Aula_4_Exercicio_Endpoint_JS
 {
     public class Executar
     {
-        static void Main(string[] args)
+
+        public static void Main(string[] args)
         {
-        try
-            {
+            var builder = WebApplication.CreateBuilder(args);
 
-                var builder = WebApplication.CreateBuilder(args);
-                // COnfigurara a string de conexão com o banco de dados
+            // Carrega string de conexão do appsettings.json
+            // var connectionString = builder.Configuration.GetConnectionString("PostgresConnection");
 
-                var conncetionString  = builder.Configuration.GetConnectionString("PostgresConnection"); // Pega a string de conexão do arquivo appserrings.json
+            // Registra o DbContext com o PostgreSQL
+            builder.Services.AddDbContext<AppDbContext>(options =>
+             options.UseNpgsql(builder.Configuration.GetConnectionString("PostgresConnection")));
 
-                // Registrar o AppDbContext com o Postgres
-                builder.Services.AddDbContext<AppDbContext>(options => options.UseNpgsql(conncetionString));
 
-                builder.Services.AddControllers();
+            // Adiciona suporte a controllers e Swagger
+            builder.Services.AddControllers();
+            builder.Services.AddEndpointsApiExplorer();
+            builder.Services.AddSwaggerGen();
 
-                // Habilita o Swagger
-                builder.Services.AddEndpointsApiExplorer();
-                builder.Services.AddSwaggerGen();
+            var app = builder.Build();
 
-                var app = builder.Build();
+            // Habilita Swagger (ambiente dev)
+            // if (app.Environment.IsDevelopment())
+            // {
+            app.UseSwagger();
+            app.UseSwaggerUI();
+            // }
 
-                // Chama o Swagger
-                app.UseSwagger();
-                app.UseSwaggerUI();
+            // Habilita HTTPS
+            app.UseHttpsRedirection();
 
-                app.UseHttpsRedirection(); // Redireciona para HTTPS
+            // Habilita arquivos estáticos da pasta wwwroot (html, css, js)
+            app.UseDefaultFiles(); // Procura por index.html
+            app.UseStaticFiles();  // Permite servir arquivos de wwwroot
 
-                app.UseAuthorization(); // Habilta a Autorização
+            // Habilita autenticação/autorização (mesmo que ainda não usada)
+            app.UseAuthorization();
 
-                app.UseDefaultFiles(); // Procura por index.html
-                app.UseStaticFiles();   // Permite servir arquivos de wwwroot
+            // Mapeia os endpoints da API
+            app.MapControllers();
 
-                app.MapControllers(); // Mapeia os controllers
+            // Roda a aplicação
+            app.Run();
 
-                app.Run();
-            }
-            catch (System.Exception ex)
-            {
-                System.Console.WriteLine("Erro de: " + ex.Message);
-            }
+            // link para o swagger: http://localhost:5000/swagger/index.html
         }
     }
 }

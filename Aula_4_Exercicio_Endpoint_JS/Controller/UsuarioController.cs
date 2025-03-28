@@ -13,51 +13,60 @@ namespace Aula_4_Exercicio_Endpoint_JS.Controller
     [Route("[controller]")]
     public class UsuarioController : ControllerBase
     {
-        private readonly AppDbContext _context; //readonly é uma variável que só pode ser inicializada no construtor, o AppDbContext é a classe que representa o banco de dados
+        private readonly AppDbContext _context;
 
-        public UsuarioController(AppDbContext context) // Construtor que recebe o AppDbContext que é a classe que representa o banco de dados
+        public UsuarioController(AppDbContext context)
         {
             _context = context;
         }
 
-        [HttpGet] // Define que esse método é um GET
-        public async Task<IEnumerable<Usuarios>> Get() // Retorna uma lista de usuários
+        [HttpGet]
+        public async Task<IEnumerable<Usuarios>> Get()
+        {
+            return await _context.Usuarios.ToListAsync();
+        }
+
+        [HttpGet("{id}")] // Define que esse método é um GET
+        public async Task<ActionResult<Usuarios>> GetById(int id) // Retorna uma lista de usuários
         {
             // await é uma palavra chave que só pode ser usada em métodos que são marcados com async
-            return await _context.Usuarios.ToListAsync(); // Retorna todos os usuários do banco de dados
+            var user = await _context.Usuarios.FindAsync(id); // Retorna todos os usuários do banco de dados
+            if (user == null) return NotFound();
+            return user;
         }
 
-        [HttpPost] // Define que esse método é um POST
-        public async Task<ActionResult<Usuarios>> Post([FromBody] Usuarios usuario) // Task é um método assíncrono, ActionResult é o tipo de retorno do método, [FromBody] indica que o usuário vai ser passado no corpo da requisição
+        [HttpPost]
+        public async Task<ActionResult<Usuarios>> Post([FromBody] Usuarios usuario)
         {
-            _context.Usuarios.Add(usuario); // Adiciona o usuário no banco de dados
-            await _context.SaveChangesAsync(); // Salva as alterações no banco de dados
-            return usuario; // Retorna o usuário que foi adicionado
+            _context.Usuarios.Add(usuario);
+            await _context.SaveChangesAsync();
+            return usuario;
         }
 
-        [HttpPut("{id}")] // Define que esse método é um PUT, {id} é um parâmetro que vai ser passado na URL
-        public async Task<ActionResult<Usuarios>> Put(int id, [FromBody] Usuarios usuario) // Task é um método assíncrono, ActionResult é o tipo de retorno do método, [FromBody] indica que o usuário vai ser passado no corpo da requisição
+        [HttpPut("{id}")]
+        public async Task<ActionResult<Usuarios>> Put(int id, [FromBody] Usuarios usuario)
         {
-            var existente = await _context.Usuarios.FindAsync(id); // Procura o usuário no banco de dados
-            if (existente == null) return NotFound(); // Se não encontrar o usuário, retorna um erro 404
-            existente.Nome_usuario = usuario.Nome_usuario; // Atualiza o nome do usuário
-            existente.Password = usuario.Password; // Atualiza o email do usuário
+            var existente = await _context.Usuarios.FindAsync(id);
+            if (existente == null) return NotFound();
+
+            existente.Password = usuario.Password;
+            existente.Nome_usuario = usuario.Nome_usuario;
             existente.Ramal = usuario.Ramal;
             existente.Especialidade = usuario.Especialidade;
 
-            await _context.SaveChangesAsync(); // Salva as alterações no banco de dados
-            return existente; // Retorna o usuário que foi atualizado
-
+            await _context.SaveChangesAsync();
+            return existente;
         }
 
-        [HttpDelete("{id}")] // Define que esse método é um DELETE, {id} é um parâmetro que vai ser passado na URL
-        public async Task<ActionResult> Delete(int id) // Task é um método assíncrono, ActionResult é o tipo de retorno do método
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> Delete(int id)
         {
-            var existente = await _context.Usuarios.FindAsync(id); // Procura o usuário no banco de dados
-            if (existente == null) return NotFound(); // Se não encontrar o usuário, retorna um erro 404
-            _context.Usuarios.Remove(existente); // Remove o usuário do banco de dados
-            await _context.SaveChangesAsync(); // Salva as alterações no banco de dados
-            return NoContent(); // Retorna um status 204
+            var existente = await _context.Usuarios.FindAsync(id);
+            if (existente == null) return NotFound();
+
+            _context.Usuarios.Remove(existente);
+            await _context.SaveChangesAsync();
+            return NoContent();
         }
     }
 }

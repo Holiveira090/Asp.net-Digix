@@ -9,11 +9,15 @@
 </head>
 
 <body>
+    <a href="maquina.html">
+        <button>Cadastro de maquina</button>
+    </a>
     <div class="container">
         <h1>Cadastro de Usuarios</h1>
 
         <form id="usuarioform">
-            <input type="hidden" id="id">
+            <!-- <input type="hidden" id="id"> -->
+            <input type="hidden" id="id" placeholder="ID do Usuario">
             <input type="text" id="nome" placeholder="Nome do Usuario" required>
             <input type="password" id="senha" placeholder="Senha" required>
             <input type="number" id="ramal" placeholder="Ramal" required>
@@ -25,6 +29,7 @@
         <table id="tabelaUsuarios">
             <thead>
                 <tr>
+                    <th>id</th>
                     <th>Nome</th>
                     <th>Senha</th>
                     <th>Ramal</th>
@@ -32,7 +37,7 @@
                     <th>Ações</th>
                 </tr>
             </thead>
-            <!-- tbody é preenchimento dinamico com Js -->
+            <!-- tbody é preenchimento dinamimente com Js -->
             <tbody>
             </tbody>
         </table>
