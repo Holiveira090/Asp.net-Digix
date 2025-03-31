@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aula de Operador</title>
+</head>
+<body>
+    
+
+    <script>
+        // temos 3 tipos de variaveis
+        // var, let e const
+        // var é uma variavel global, ou seja, pode ser acessada em quarquel parte do código
+        // let é uma variavel local, ou seja, só pode ser acessada dentro do bloco onde foi declarada
+        // const é uma variável constante, ou seja, não pode ser alterada depois de declarada
+
+        let num1 = 10;
+        let num2 = 20;
+
+        let num3 = Number(prompt("Digite um número: "))
+        let num4 = Number(prompt("Digite um número: "))
+
+        let totalSoma = num1 + num2;
+        let totalSubtracao = num1 - num2;
+        let totalMultiplicacao = num1 * num2;
+        let totalDivisao = num1 / num2;
+        let totalResto = num1 % num2;2
+
+        document.write(`A soma dos numeros ${num3} + ${num4} = ${num3 + num4}`);
+
+        // Se quiser colocar uma Alert
+        alert(`A soma dos numeros ${num3} + ${num4} = ${num3 + num4}`)
+    </script>
+</body>
+</html>
