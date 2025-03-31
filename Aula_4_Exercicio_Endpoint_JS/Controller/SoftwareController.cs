@@ -24,6 +24,13 @@ namespace Aula_4_Exercicio_Endpoint_JS.Controller
         {
             return await _context.Software.ToListAsync();
         }
+        [HttpGet("{id}")]
+        public async Task<ActionResult<Software>> GetById(int id)
+        {
+            var software = await _context.Software.FindAsync(id);
+            if (software == null) return NotFound();
+            return software;
+        }
 
         [HttpPost]
         public async Task<ActionResult<Software>> Post([FromBody] Software software)

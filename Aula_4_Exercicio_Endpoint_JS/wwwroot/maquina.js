@@ -34,7 +34,6 @@ function salvarMaquina(e) {
     e.preventDefault();
 
     const id = document.getElementById("id").value;
-
     const maquina = {
         tipo: document.getElementById("tipo").value,
         velocidade: parseInt(document.getElementById("velocidade").value),
@@ -52,10 +51,14 @@ function salvarMaquina(e) {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(maquina)
     })
-        .then(res => res.json())
+        .then(res => {
+            if (!res.ok) throw new Error("Erro ao salvar");
+            return res.status === 204 ? null : res.json(); // Evita erro com `204 No Content`
+        })
         .then(data => {
             console.log("Salvo:", data);
             document.getElementById("maquinaform").reset();
+            document.getElementById("id").value = ""; // Reseta o campo ID
             carregarMaquina();
         })
         .catch(error => console.error("Erro ao salvar:", error));
@@ -63,13 +66,28 @@ function salvarMaquina(e) {
 
 function editarMaquina(id) {
     fetch(`${API}/${id}`)
-        .then(res => res.json()) 
+        .then(res => res.json())
         .then(maquina => {
-            document.getElementById("id").value = maquina.id_maquina;
-            document.getElementById("tipo").value = maquina.tipo ? parseInt(maquina.tipo) : 0;
-            document.getElementById("harddisk").value = maquina.harddisk ? parseInt(maquina.harddisk) : 0;
-            document.getElementById("placa_rede").value = maquina.placa_rede ? parseInt(maquina.placa_rede) : 0;
-            document.getElementById("memoria_ram").value = maquina.memoria_ram ? parseInt(maquina.memoria_ram) : 0;
-            document.getElementById("fk_usuario").value = maquina.fk_usuario ? parseInt(maquina.fk_usuario) : 0;
-        });
+            document.getElementById("id").value = id; // ESSENCIAL para o PUT funcionar
+            document.getElementById("tipo").value = maquina.tipo || "";
+            document.getElementById("velocidade").value = maquina.velocidade || 0;
+            document.getElementById("harddisk").value = maquina.harddisk || 0;
+            document.getElementById("placa_rede").value = maquina.placa_rede || 0;
+            document.getElementById("memoria_ram").value = maquina.memoria_ram || 0;
+            document.getElementById("fk_usuario").value = maquina.fk_usuario || 0;
+        })
+        .catch(error => console.error("Erro ao carregar máquina:", error));
+}
+
+
+function deletarMaquina(id) {
+    if (confirm("Deseja realmente excluir esta máquina?")) {
+        fetch(`${API}/${id}`, { method: "DELETE" })
+            .then(res => {
+                if (!res.ok) throw new Error("Erro ao deletar");
+                return res.status === 204 ? null : res.json(); // Evita erro ao tentar ler resposta vazia
+            })
+            .then(() => carregarMaquina()) // Atualiza a lista após deletar
+            .catch(error => console.error("Erro:", error));
+    }
 }
