@@ -1,0 +1,73 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login com reCaptcha</title>
+    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+    <style>
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            padding: 20px;
+        }
+
+        input {
+            display: block;
+            margin: 10px 0;
+            padding: 8px;
+            width: 250px;
+        }
+    </style>
+</head>
+
+<body>
+    <h2> Login de Verficação reCaptcha</h2>
+
+    <form id="loginForm">
+        <input type="email" id="email" placeholder="Seu Email" required>
+        <input type="password" id="password" placeholder="Sua Senha" required>
+
+        <!-- Aqui entra o reCAPTCHA -->
+        <div class="g-recaptcha" data-sitekey="6Lds6AcrAAAAANfSVlyoT6Yc-h3A41kCtGOo2wvE"></div>
+        <button type="submit">Entrar</button>
+    </form>
+    <div id = "resposta"></div>
+
+    <script>
+        document.getElementById('loginForm').addEventListener('submit', function (event) {
+            event.preventDefault(); // Impede o envio do formulário
+
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            const recaptchaResponse = grecaptcha.getResponse(); // grecaptcha é a função global do reCAPTCHA
+
+            if (recaptchaResponse.length === 0) {
+                alert('Por favor, verifique se você não é um robô.');
+                return; // ele vai retorna que não é um robô
+            }
+
+            // Simulando login aprovado
+            const usuario = {
+                email: email,
+                status: 'Aprovado',
+            };
+
+            // Gerar um Json login
+            const blob = new Blob([JSON.stringify(usuario, null, 2)], {
+                type: 'application/json'
+            }); // blob é um objeto que representa um arquivo de dados brutos
+            const link = document.createElement('a'); // cria um elemento <a>
+            link.href = URL.createObjectURL(blob); // cria um URL temporário para o blob
+            link.download = 'login.json'; // define o nome do arquivo
+            link.click(); // simula um clique no link para baixar o arquivo
+
+           
+        });
+    </script>
+</body>
+
+</html>
+
+<!-- npx serve . -->
