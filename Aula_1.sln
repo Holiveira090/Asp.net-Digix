@@ -13,6 +13,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Aula_4_exercicio_EndPoint",
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Aula_4_Exercicio_Endpoint_JS", "Aula_4_Exercicio_Endpoint_JS\Aula_4_Exercicio_Endpoint_JS.csproj", "{2D43CEB3-0E3A-478F-A055-0620ACDFCD3C}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExemploASP_NET_CORE", "ExemploASP_NET_CORE\ExemploASP_NET_CORE.csproj", "{6F07EA00-9C18-494D-ABB4-F3B8F562B4F7}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -50,5 +52,9 @@ Global
 		{49487491-B449-4EE8-BB5C-2E1A489F9FE8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{49487491-B449-4EE8-BB5C-2E1A489F9FE8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{49487491-B449-4EE8-BB5C-2E1A489F9FE8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6F07EA00-9C18-494D-ABB4-F3B8F562B4F7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6F07EA00-9C18-494D-ABB4-F3B8F562B4F7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6F07EA00-9C18-494D-ABB4-F3B8F562B4F7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6F07EA00-9C18-494D-ABB4-F3B8F562B4F7}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

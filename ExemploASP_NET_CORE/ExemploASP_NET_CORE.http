@@ -1,0 +1,26 @@
+###
+# Testar GET
+GET http://localhost:5041/Usuario
+Accept: application/json
+
+### Testar POST
+POST http://localhost:5041/Usuario
+Content-Type: application/json
+
+{
+  "id": 1611,
+  "nome": "string",
+  "email": "string"
+}
+
+### Testar PUT
+PUT http://localhost:5041/Usuario/1
+Content-Type: application/json
+
+{
+    "Nome": "Gabriel Colleman",
+    "Email": "Gabriel@gmail.com"
+}
+
+### Testar DELETE
+DELETE http://localhost:5041/Usuario/1

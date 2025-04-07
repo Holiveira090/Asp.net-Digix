@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cadastro de software</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <a href="index.html">
+        <button>Cadastro de usuario</button>
+    </a>
+    <a href="maquina.html">
+        <button>Cadastro de maquina</button>
+    </a>
+    <div class="container">
+        <h1>Cadastro de software</h1>
+
+        <form id="softwareform">
+            <!-- <input type="hidden" id="id"> -->
+            <input type="hidden" id="id" placeholder="ID da Maquina">
+            <input type="text" id="produto" placeholder="Produto" required>
+            <input type="number" id="harddisk" placeholder="Hard Disk" required>
+            <input type="number" id="memoria_ram" placeholder="Memoria_ram" required>
+            <input type="number" id="fk_maquina" placeholder="Maquina" required>
+            <button type="submit">Salvar</button>
+        </form>
+
+        <h2>Lista de Maquinas</h2>
+        <table id="tabelaSoftware">
+            <thead>
+                <tr>
+                    <th>Id</th>
+                    <th>Produto</th>
+                    <th>Hard Disk</th>
+                    <th>Placa de Rede</th>
+                    <th>Maquina</th>
+                    <th>Ações</th>
+                </tr>
+            </thead>
+            <!-- tbody é preenchimento dinamimente com Js -->
+            <tbody>
+            </tbody>
+        </table>
+    </div>
+    <script src="software.js"></script>
+</body>
+
+</html>
