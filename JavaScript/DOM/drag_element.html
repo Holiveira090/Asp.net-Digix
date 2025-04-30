@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Drag - Arrastar</title>
+
+    <style>
+        #draggable {
+            width: 200px;
+            height: 200px;
+            background-color: #3498db;
+            cursor: pointer;
+        }
+    </style>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => { // Aqui esta esperando o dom ser carregado
+            draggable = document.getElementById('draggable'); // aqui estamos pegando o elemento
+            draggable.addEventListener('mousedown', (event) => {
+                let shiftX = event.clientX - draggable.getBoundingClientRect().left; // aqui estamos pegando a posição do mouse em relação ao elemento draggable
+                let shiftY = event.clientY - draggable.getBoundingClientRect().top;
+
+
+                draggable.style.position = 'absolute'; // aqui estamos mudando a posição do elemento draggable para absoluta
+                draggable.style.zIndex = 1000;
+                document.body.append(draggable); // adicionando o draggable ao body
+
+                moveAt(event.pageX, event.pageY); // aqui estamos criando a função moveat}
+
+                function moveAt(pageX, pageY) { // aqui estamos criando a função moveAT
+                    draggable.style.left = pageX - shiftX + 'px';
+                    draggable.style.top = pageY - shiftY + 'px';
+                }
+
+                function onMouseMove(event) {
+                    moveAt(event.pageX, event.pageY);
+                }
+
+                document.addEventListener('mousemove', onMouseMove); // aqui estamos adicionando um evente ao mousemove no documento
+                draggable.addEventListener('mouseup', () => {
+                    document.removeEventListener('mousemove', onMouseMove);
+                    draggable.onmousemove = null;
+                });
+
+
+            }) // aqui estamos adicionando um evento no de mousedown no elemento draggable
+
+            draggable.ondragstart = () => {
+                return false;
+            }
+
+        })
+    </script>
+
+</head>
+
+<body>
+    <div id="draggable"></div>
+</body>
+
+</html>

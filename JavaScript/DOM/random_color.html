@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>random color visualizar</title>
+    <style>
+        #color {
+            cursor: pointer;
+            width: 300px;
+            height: 300px;
+            background-color: black;
+        }
+    </style>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() { // aqui estamos esperando o DOM ser carregado
+            const color = document.getElementById('color');
+            
+            color.addEventListener('click', function() { // aqui estamos adicionando um evento 
+                const randomColor = '#' + Math.floor(Math.random()*16777215).toString(16); // aqui estamos gerando uma cor aleatoria
+                color.style.backgroundColor = randomColor; // aqui estamos mudando a cor de fundo do elemento color
+                console.log(randomColor); // imprimindo a cor no console
+                
+            })
+        })
+    </script>
+</head>
+
+<body>
+    <div id="color"></div>
+</body>
+
+</html>
