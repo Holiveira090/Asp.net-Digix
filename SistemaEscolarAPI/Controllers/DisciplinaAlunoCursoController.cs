@@ -24,11 +24,19 @@ namespace SistemaEscolarAPI.Controllers
         public async Task<ActionResult<IEnumerable<DisciplinaAlunoCursoDTO>>> Get()
         {
             var registros = await _context.DisciplinaAlunoCursos
+                .Include(d => d.Disciplina)
+                .Include(d => d.Aluno)
+                .Include(d => d.Curso)
+
                 .Select(d => new DisciplinaAlunoCursoDTO
                 {
-                    AlunoId = d.alunoId,
+                    Id = d.AlunoId + d.CursoId + d.DisciplinaId,
+                    AlunoId = d.AlunoId,
+                    AlunoNome = d.Aluno.Nome,
                     CursoId = d.CursoId,
-                    DisciplinaId = d.DisciplinaId
+                    CursoDescricao = d.Curso.Descricao,
+                    DisciplinaId = d.DisciplinaId,
+                    DisciplinaDescricao = d.Disciplina.Descricao
                 })
                 .ToListAsync();
 
@@ -40,7 +48,7 @@ namespace SistemaEscolarAPI.Controllers
         {
             var entidade = new DisciplinaAlunoCurso
             {
-                alunoId = disciplinaAlunoCursoDTO.AlunoId,
+                AlunoId = disciplinaAlunoCursoDTO.AlunoId,
                 CursoId = disciplinaAlunoCursoDTO.CursoId,
                 DisciplinaId = disciplinaAlunoCursoDTO.DisciplinaId
             };
@@ -61,6 +69,33 @@ namespace SistemaEscolarAPI.Controllers
 
             return NoContent();
         }
+
+        [HttpGet("{id}")]
+        public async Task<ActionResult<DisciplinaAlunoCursoDTO>> GetById(int id)
+        {
+            var relacoes = await _context.DisciplinaAlunoCursos
+                .Include(d => d.Aluno)
+                .Include(d => d.Curso)
+                .Include(d => d.Disciplina)
+                .ToListAsync();
+
+            var relacao = relacoes.FirstOrDefault(r => r.AlunoId + r.CursoId + r.DisciplinaId == id);
+
+            if (relacao == null) return NotFound("Relação não encontrada");
+
+            var dto = new DisciplinaAlunoCursoDTO
+            {
+                AlunoId = relacao.AlunoId,
+                CursoId = relacao.CursoId,
+                DisciplinaId = relacao.DisciplinaId,
+                AlunoNome = relacao.Aluno.Nome,
+                CursoDescricao = relacao.Curso.Descricao,
+                DisciplinaDescricao = relacao.Disciplina.Descricao
+            };
+
+            return Ok(dto);
+        }
+
 
     }
 }

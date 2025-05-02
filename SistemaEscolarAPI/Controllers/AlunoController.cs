@@ -26,7 +26,7 @@ namespace SistemaEscolarAPI.Controllers
         {
             var alunos = await _context.Alunos
                 .Include(a => a.Curso)
-                .Select(alunos => new AlunoDTO { Nome = alunos.Nome, Curso = alunos.Curso.Descricao })
+                .Select(a => new AlunoDTO { Id = a.Id, Nome = a.Nome, Curso = a.Curso.Descricao })
                 .ToListAsync();
             return Ok(alunos);
         }
@@ -41,7 +41,7 @@ namespace SistemaEscolarAPI.Controllers
             _context.Alunos.Add(aluno);
             await _context.SaveChangesAsync();
 
-            return Ok();
+            return Ok(new { mensagem = "Aluno cadastrado com sucesso!" }); // Mensagem é um propriedade anonima que contém um valor atribuido a ela
         }
 
         [HttpPut("{id}")]
@@ -58,19 +58,44 @@ namespace SistemaEscolarAPI.Controllers
             _context.Alunos.Update(aluno);
             await _context.SaveChangesAsync();
 
-            return Ok();
+            return Ok(new { mensagem = "Aluno alterado com sucesso!" });
         }
         [HttpDelete("{id}")]
         public async Task<ActionResult> Delete(int id)
         {
             var aluno = await _context.Alunos.FindAsync(id);
-            if(aluno == null) return BadRequest("Curso não encontrado");
+            if (aluno == null) return BadRequest("Curso não encontrado");
 
             _context.Alunos.Remove(aluno);
 
             await _context.SaveChangesAsync();
 
-            return Ok();
+            return Ok(new { mensagem = "Aluno excluido com sucesso!" });
+        }
+
+        // Método para buscar aluno por Id
+        [HttpGet("{id}")]
+        public async Task<ActionResult<AlunoDTO>> GetById(int id)
+        {
+            var alunos = await _context.Alunos
+                .Include(a => a.Curso)
+                .FirstOrDefaultAsync(a => a.Id == id);
+
+                // FirstOrDefaultAsync é um metodo async que retorna o primeiro elemento que atende a condição atribuida a ele, ou valor padrão se nenhum for encontrado, que é 500
+                // Include é método que inclui entidades relacionadas na consulta, permitindo carregar dados relacionados (como o curso do aluno) junto com o aluno
+
+            if (alunos == null)
+            {
+                return NotFound("Aluno não encontrado");
+            }
+            var alunoDto = new AlunoDTO
+            {
+                Id = alunos.Id,
+                Nome = alunos.Nome,
+                Curso = alunos.Curso.Descricao
+            };
+
+            return Ok(alunoDto);
         }
     }
 }

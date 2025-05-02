@@ -26,9 +26,9 @@ namespace SistemaEscolarAPI.Controllers
         {
             var disciplina = await _context.Disciplinas
                 .Include(d => d.Curso)
-                .Select(disciplina => new DisciplinaDTO { Descricao = disciplina.Descricao, Curso = disciplina.Curso.Descricao })
+                .Select(d => new DisciplinaDTO { Id = d.Id, Descricao = d.Descricao, Curso = d.Curso.Descricao })
                 .ToListAsync();
-            return Ok();
+            return Ok(disciplina);
         }
 
         [HttpPost]
@@ -41,7 +41,7 @@ namespace SistemaEscolarAPI.Controllers
             _context.Disciplinas.Add(disciplina);
             await _context.SaveChangesAsync();
 
-            return Ok();
+            return Ok(new { mensagem = "Disciplina registrada com sucesso!" });
         }
 
         [HttpPut("{id}")]
@@ -59,7 +59,7 @@ namespace SistemaEscolarAPI.Controllers
             _context.Disciplinas.Update(disciplina);
             await _context.SaveChangesAsync();
 
-            return Ok();
+            return Ok(new { mensagem = "Disciplina atualizada com sucesso!" });
         }
 
         [HttpDelete("{id}")]
@@ -71,7 +71,29 @@ namespace SistemaEscolarAPI.Controllers
             _context.Disciplinas.Remove(disciplina);
 
             await _context.SaveChangesAsync();
-            return Ok();
+            return Ok(new { mensagem = "Disciplina deletada com sucesso!" });
         }
+
+        [HttpGet("{id}")]
+        public async Task<ActionResult<DisciplinaDTO>> GetById(int id)
+        {
+            var disciplinaDto = await _context.Disciplinas
+                .Where(d => d.Id == id)
+                .Select(d => new DisciplinaDTO
+                {
+                    Id = d.Id,
+                    Descricao = d.Descricao,
+                    Curso = d.Curso.Descricao
+                })
+                .FirstOrDefaultAsync();
+
+            if (disciplinaDto == null)
+            {
+                return NotFound("Disciplina não encontrada");
+            }
+
+            return Ok(disciplinaDto);
+        }
+
     }
 }

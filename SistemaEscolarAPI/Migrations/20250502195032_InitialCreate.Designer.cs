@@ -11,7 +11,7 @@ using SistemaEscolarAPI.DB;
 namespace SistemaEscolarAPI.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20250430202553_InitialCreate")]
+    [Migration("20250502195032_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -87,16 +87,16 @@ namespace SistemaEscolarAPI.Migrations
 
             modelBuilder.Entity("SistemaEscolarAPI.Models.DisciplinaAlunoCurso", b =>
                 {
-                    b.Property<int>("alunoId")
-                        .HasColumnType("integer");
-
-                    b.Property<int>("DisciplinaId")
+                    b.Property<int>("AlunoId")
                         .HasColumnType("integer");
 
                     b.Property<int>("CursoId")
                         .HasColumnType("integer");
 
-                    b.HasKey("alunoId", "DisciplinaId", "CursoId");
+                    b.Property<int>("DisciplinaId")
+                        .HasColumnType("integer");
+
+                    b.HasKey("AlunoId", "CursoId", "DisciplinaId");
 
                     b.HasIndex("CursoId");
 
@@ -129,6 +129,12 @@ namespace SistemaEscolarAPI.Migrations
 
             modelBuilder.Entity("SistemaEscolarAPI.Models.DisciplinaAlunoCurso", b =>
                 {
+                    b.HasOne("SistemaEscolarAPI.Models.Aluno", "Aluno")
+                        .WithMany("DisciplinaAlunoCurso")
+                        .HasForeignKey("AlunoId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("SistemaEscolarAPI.Models.Curso", "Curso")
                         .WithMany("DisciplinaAlunoCursos")
                         .HasForeignKey("CursoId")
@@ -138,12 +144,6 @@ namespace SistemaEscolarAPI.Migrations
                     b.HasOne("SistemaEscolarAPI.Models.Disciplina", "Disciplina")
                         .WithMany("disciplinaAlunoCursos")
                         .HasForeignKey("DisciplinaId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("SistemaEscolarAPI.Models.Aluno", "Aluno")
-                        .WithMany("DisciplinaAlunoCurso")
-                        .HasForeignKey("alunoId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 

@@ -68,16 +68,16 @@ namespace SistemaEscolarAPI.Migrations
                 name: "DisciplinaAlunoCursos",
                 columns: table => new
                 {
-                    alunoId = table.Column<int>(type: "integer", nullable: false),
+                    AlunoId = table.Column<int>(type: "integer", nullable: false),
                     DisciplinaId = table.Column<int>(type: "integer", nullable: false),
                     CursoId = table.Column<int>(type: "integer", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_DisciplinaAlunoCursos", x => new { x.alunoId, x.DisciplinaId, x.CursoId });
+                    table.PrimaryKey("PK_DisciplinaAlunoCursos", x => new { x.AlunoId, x.CursoId, x.DisciplinaId });
                     table.ForeignKey(
-                        name: "FK_DisciplinaAlunoCursos_Alunos_alunoId",
-                        column: x => x.alunoId,
+                        name: "FK_DisciplinaAlunoCursos_Alunos_AlunoId",
+                        column: x => x.AlunoId,
                         principalTable: "Alunos",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
