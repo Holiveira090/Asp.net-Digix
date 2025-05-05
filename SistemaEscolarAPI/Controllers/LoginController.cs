@@ -24,8 +24,8 @@ namespace SistemaEscolarAPI.Controllers
 
             var users = new List<Usuario>
             {
-                new Usuario{Username = "admin", Password = "123",Role = "Administrador"},
-                new Usuario{Username = "func", Password = "123",Role = "Funcionario"}
+                new Usuario{UserName = "admin", Password = "123",Role = "Administrador"},
+                new Usuario{UserName = "func", Password = "123",Role = "Funcionario"}
             };
 
             var user = users.FirstOrDefault(u =>
@@ -36,9 +36,9 @@ namespace SistemaEscolarAPI.Controllers
             if (user == null)
             {
                 return Unauthorized(new { message = "Usuario ou senha invalidos" }); // Unauthorized retorna 401 com a mensagem informando que a validação não é correta
+            }
                 var token = TokenService.GenerateToken(user);
                 return Ok(new {token});
-            }
         }
     }
 }

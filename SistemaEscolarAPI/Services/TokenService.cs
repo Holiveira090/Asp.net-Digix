@@ -27,9 +27,13 @@ namespace SistemaEscolarAPI.Services
                     new Claim(ClaimTypes.Name, usuario.UserName)
                     // Uma reividicação (claim) é uma declaração sobre um usuario, com seu nome ou funções
                 }),
-
-
-            };
+                Expires = DateTime.UtcNow.AddHours(2), // Aqui ta definindo o tempo de expiração do token que vai ficar 2 horas do momento que foi chamado.
+                SigningCredentials = new SigningCredentials (new SymmetricSecurityKey(key), // SymmetricSecurityKey é uma classe que representa uma chave simetrica usada para a assinatura do token
+                    SecurityAlgorithms.HmacSha256Signature)
+                    };
+                var token = tokenHandler.CreateToken(tokenDescriptor);
+                return tokenHandler.WriteToken(token);
+                // WriteToken é metodo quer serializar o token JWT em string
         }
     }
 }

@@ -146,3 +146,4 @@ C:\Users\henriqueoliveira\Desktop\Asp.net-Digix\SistemaEscolarAPI\obj\Debug\net8
 C:\Users\henriqueoliveira\Desktop\Asp.net-Digix\SistemaEscolarAPI\obj\Debug\net8.0\SistemaEscolarAPI.pdb
 C:\Users\henriqueoliveira\Desktop\Asp.net-Digix\SistemaEscolarAPI\obj\Debug\net8.0\SistemaEscolarAPI.genruntimeconfig.cache
 C:\Users\henriqueoliveira\Desktop\Asp.net-Digix\SistemaEscolarAPI\obj\Debug\net8.0\ref\SistemaEscolarAPI.dll
+C:\Users\henriqueoliveira\Desktop\Asp.net-Digix\SistemaEscolarAPI\bin\Debug\net8.0\SistemaEscolarAPI.staticwebassets.runtime.json

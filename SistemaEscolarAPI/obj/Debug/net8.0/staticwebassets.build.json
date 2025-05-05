@@ -1,11 +1,19 @@
 {
   "Version": 1,
-  "Hash": "WnS28JYBnEhQyhQ127bt/oO30NC02BmBpvd5UGZpD04=",
+  "Hash": "NgQ0WsJtmkIIfEq77ih4/01D9Ah2PvWjy4HoUqP9hlk=",
   "Source": "SistemaEscolarAPI",
   "BasePath": "_content/SistemaEscolarAPI",
   "Mode": "Default",
   "ManifestType": "Build",
   "ReferencedProjectsConfiguration": [],
-  "DiscoveryPatterns": [],
+  "DiscoveryPatterns": [
+    {
+      "Name": "SistemaEscolarAPI\\wwwroot",
+      "Source": "SistemaEscolarAPI",
+      "ContentRoot": "C:\\Users\\henriqueoliveira\\Desktop\\Asp.net-Digix\\SistemaEscolarAPI\\wwwroot\\",
+      "BasePath": "_content/SistemaEscolarAPI",
+      "Pattern": "**"
+    }
+  ],
   "Assets": []
 }
