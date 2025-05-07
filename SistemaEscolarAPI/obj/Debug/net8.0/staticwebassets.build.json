@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "NgQ0WsJtmkIIfEq77ih4/01D9Ah2PvWjy4HoUqP9hlk=",
+  "Hash": "aXg/WnqAyL5/Xj5SMyFpF5yhFiW2ngRRcwVbasGHTy0=",
   "Source": "SistemaEscolarAPI",
   "BasePath": "_content/SistemaEscolarAPI",
   "Mode": "Default",
@@ -15,5 +15,82 @@
       "Pattern": "**"
     }
   ],
-  "Assets": []
+  "Assets": [
+    {
+      "Identity": "C:\\Users\\henriqueoliveira\\Desktop\\Asp.net-Digix\\SistemaEscolarAPI\\wwwroot\\alunos.html",
+      "SourceId": "SistemaEscolarAPI",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\henriqueoliveira\\Desktop\\Asp.net-Digix\\SistemaEscolarAPI\\wwwroot\\",
+      "BasePath": "_content/SistemaEscolarAPI",
+      "RelativePath": "alunos.html",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "PreferTarget",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\alunos.html"
+    },
+    {
+      "Identity": "C:\\Users\\henriqueoliveira\\Desktop\\Asp.net-Digix\\SistemaEscolarAPI\\wwwroot\\css\\styles-global.css",
+      "SourceId": "SistemaEscolarAPI",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\henriqueoliveira\\Desktop\\Asp.net-Digix\\SistemaEscolarAPI\\wwwroot\\",
+      "BasePath": "_content/SistemaEscolarAPI",
+      "RelativePath": "css/styles-global.css",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "PreferTarget",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\css\\styles-global.css"
+    },
+    {
+      "Identity": "C:\\Users\\henriqueoliveira\\Desktop\\Asp.net-Digix\\SistemaEscolarAPI\\wwwroot\\index.html",
+      "SourceId": "SistemaEscolarAPI",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\henriqueoliveira\\Desktop\\Asp.net-Digix\\SistemaEscolarAPI\\wwwroot\\",
+      "BasePath": "_content/SistemaEscolarAPI",
+      "RelativePath": "index.html",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "PreferTarget",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\index.html"
+    },
+    {
+      "Identity": "C:\\Users\\henriqueoliveira\\Desktop\\Asp.net-Digix\\SistemaEscolarAPI\\wwwroot\\js\\modal.js",
+      "SourceId": "SistemaEscolarAPI",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\henriqueoliveira\\Desktop\\Asp.net-Digix\\SistemaEscolarAPI\\wwwroot\\",
+      "BasePath": "_content/SistemaEscolarAPI",
+      "RelativePath": "js/modal.js",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "PreferTarget",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\js\\modal.js"
+    }
+  ]
 }

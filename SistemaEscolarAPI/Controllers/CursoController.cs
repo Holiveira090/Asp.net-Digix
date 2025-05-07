@@ -53,7 +53,7 @@ namespace SistemaEscolarAPI.Controllers
             return NoContent();
         }
 
-        [HttpDelete]
+        [HttpDelete("{id}")]
         public async Task<ActionResult> Delete(int id)
         {
             var curso = await _context.Cursos.FindAsync(id);
@@ -65,7 +65,8 @@ namespace SistemaEscolarAPI.Controllers
             return Ok();
         }
 
-        [HttpGet("{ìd}")]
+
+        [HttpGet("{id}")]
         public async Task<ActionResult<CursoDTO>> GetById(int id)
         {
             var curso = await _context.Cursos.FindAsync(id);

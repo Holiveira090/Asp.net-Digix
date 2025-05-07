@@ -1,4 +1,4 @@
-// Comando para colcoar os migrations no banco de dados
+// Comando para colocar os migrations no banco de dados
 // dotnet ef migrations add InitialCreate
 // dotnet ef database update
 // using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -27,11 +27,11 @@ builder.Services.AddSwaggerGen(c => // para gerar a documentação lá em baixar
     c.SwaggerDoc("v1", new OpenApiInfo { Title = "Sistema Escolar API", Version = "v1" }); // Define o título e a versão da API na documentação do Swagger
 });
 
-// JWT Autenticação (nal qual temos o TokenService)
-// AddJwtBearer é um metodo que configura a autenticação JWT para o aplicativo AspNet Core. Ele permite que o aplicativo valide o jwt recebido nas solicitações http
-// JwtBearerDeafaults é um sistema de autenticação padrão de tokens
-// AuthenticationScheme é um parametro que especifica o esquema de autenticação usado. Neste caso nos estamos usando o do jwt
-var jwtKey = Environment.GetEnvironmentVariable("JWT_SECRET");
+// JWT Autenticação (na qual temos o TokenService)
+// AddJwtBearer é um método que configura a autenticação JWT para o aplicativo ASP.NET Core. Ele permite que o aplicativo valide o JWT recebido nas solicitações HTTP
+// JwtBearerDefaults é um sistema de autenticação padrão de tokens
+// AuthenticationScheme é um parâmetro que especifica o esquema de autenticação usado. Neste caso, estamos usando o do JWT
+var jwtKey = builder.Configuration["JwtSettings:Secret"]; // Corrigido para ler o segredo do arquivo de configuração (appsettings.json)
 
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(options =>
@@ -45,7 +45,6 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
         };
     });
 
-
 var app = builder.Build();
 
 // Configurar middlewares
@@ -53,20 +52,20 @@ app.UseSwagger();
 app.UseSwaggerUI();
 
 // Redirecionamento para o front end
-app.UseAuthentication(); // Ativa a autenticação, que valida os tokens jwt nas solicitações recebidas. Isso garante apenas os usuarios autenticados ter acesso a api
+app.UseAuthentication(); // Ativa a autenticação, que valida os tokens JWT nas solicitações recebidas. Isso garante que apenas os usuários autenticados tenham acesso à API
 app.UseAuthorization();
 
-// Para subir os arquivos estaticos
-app.UseStaticFiles(); // Permite que os arquivos estaticos diretamente para o cliente
-app.UseRouting(); // roteamento que permite que o ASP direcione a solicitação para os controladores propriados com base nas rotas definidas
+// Para servir os arquivos estáticos
+app.UseStaticFiles(); // Permite que os arquivos estáticos sejam servidos diretamente para o cliente
+app.UseRouting(); // Roteamento que permite que o ASP.NET direcione a solicitação para os controladores apropriados com base nas rotas definidas
 app.UseHttpsRedirection();
 
+// Redireciona para a página inicial (index.html)
 app.MapGet("/", context =>
 {
     context.Response.Redirect("/index.html");
     return Task.CompletedTask;
-}
-);
+});
 
 app.MapControllers(); // Mapeia os controladores
 app.Run();
