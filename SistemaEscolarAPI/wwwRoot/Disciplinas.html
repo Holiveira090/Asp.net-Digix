@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gestão de Alunos</title>
+    <title>Gestão de Disciplinas</title>
     <link rel="stylesheet" href="./css/styles-global.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
@@ -49,54 +49,48 @@
     </nav>
 
     <section class="container py-5">
-        <h2 class="mb-4">Gestão de Aluno</h2>
-        <form id="formAluno">
-            <!-- Campo Nome -->
+        <h2 class="mb-4">Gestão de Disciplinas</h2>
+        <form id="formDisciplina">
             <div class="mb-3">
-                <label for="nome" class="form-label">Nome</label>
-                <input type="text" class="form-control" id="nome" name="nome" placeholder="Digite o nome do aluno"
-                    required>
+                <label for="disciplina" class="form-label">Disciplina</label>
+                <input type="text" class="form-control" id="disciplina" name="disciplina"
+                    placeholder="Digite a disciplina que deseja inserir" required>
             </div>
-
-            <!-- Campo Curso (seleção por descrição) -->
             <div class="mb-3">
                 <label for="curso" class="form-label">Curso</label>
-                <select class="form-select" id="curso" name="curso" required>
+                <select class="form-control" id="curso" name="curso" required>
                     <option value="">Selecione um curso</option>
-                    <!-- Cursos carregados dinamicamente -->
                 </select>
             </div>
-
-            <!-- Botão de envio -->
             <button type="submit" class="btn btn-primary">Salvar</button>
         </form>
     </section>
 
-    <!-- Lista de alunos -->
     <section class="container py-5">
-        <h2 class="mb-4">Lista de Alunos</h2>
-        <table class="table table-striped" id="tabelaAlunos">
+        <h2 class="mb-4">Lista de Disciplinas</h2>
+        <table class="table table-striped" id="tabeladisciplinas">
             <thead>
                 <tr>
-                    <th>Nome</th>
+                    <th>Disciplina</th>
                     <th>Curso</th>
                     <th>Ações</th>
                 </tr>
             </thead>
             <tbody>
-                <!-- Lista de alunos será carregada aqui -->
+                <!-- Lista de disciplinas será carregada aqui -->
             </tbody>
         </table>
     </section>
 
     <script>
-        let alunoEditandoId = null;
+        let disciplinaEditando = null;
 
         async function carregarCursos() {
             try {
                 const response = await fetch('http://localhost:5209/api/curso');
                 const cursos = await response.json();
                 const selectCurso = document.getElementById('curso');
+                selectCurso.innerHTML = '<option value="">Selecione um curso</option>';
 
                 cursos.forEach(curso => {
                     const option = document.createElement('option');
@@ -109,128 +103,135 @@
             }
         }
 
-        async function carregarAlunos() {
+        async function carregarDisciplinas() {
             try {
-                const response = await fetch('http://localhost:5209/api/aluno');
-                const alunos = await response.json();
-                const tabela = document.getElementById('tabelaAlunos').getElementsByTagName('tbody')[0];
+                const response = await fetch('http://localhost:5209/api/disciplina');
+                const disciplinas = await response.json();
+                const tabela = document.getElementById('tabeladisciplinas').getElementsByTagName('tbody')[0];
                 tabela.innerHTML = '';
 
-                if (alunos.length === 0) {
+                if (disciplinas.length === 0) {
                     const tr = document.createElement('tr');
                     tr.innerHTML = `
-                <td colspan="3" class="text-center text-muted">Nenhum aluno cadastrado no momento.</td>
-            `;
+                        <td colspan="3" class="text-center text-muted">Nenhuma disciplina cadastrada no momento.</td>
+                    `;
                     tabela.appendChild(tr);
                     return;
                 }
 
-                alunos.forEach(aluno => {
+                disciplinas.forEach(disciplina => {
                     const tr = document.createElement('tr');
                     tr.innerHTML = `
-                <td>${aluno.nome}</td>
-                <td>${aluno.curso}</td>
-                <td>
-                    <button class="btn btn-sm btn-warning me-2" onclick="editarAluno(${aluno.id})">Editar</button>
-                    <button class="btn btn-sm btn-danger" onclick="excluirAluno(${aluno.id})">Excluir</button>
-                </td>
-            `;
+                        <td>${disciplina.descricao}</td>
+                        <td>${disciplina.curso || '---'}</td>
+                        <td>
+                            <button class="btn btn-sm btn-warning me-2" onclick="editarDisciplina(${disciplina.id})">Editar</button>
+                            <button class="btn btn-sm btn-danger" onclick="excluirDisciplina(${disciplina.id})">Excluir</button>
+                        </td>
+                    `;
                     tabela.appendChild(tr);
                 });
             } catch (error) {
-                console.error('Erro ao carregar alunos:', error);
+                console.error('Erro ao carregar disciplinas:', error);
             }
         }
 
-
-        // Editar aluno
-        async function editarAluno(id) {
+        async function editarDisciplina(id) {
             try {
-                const response = await fetch(`http://localhost:5209/api/aluno/${id}`);
-                if (!response.ok) throw new Error('Erro ao buscar aluno');
-                const aluno = await response.json();
+                const response = await fetch(`http://localhost:5209/api/disciplina/${id}`);
+                if (!response.ok) throw new Error('Erro ao buscar disciplina');
+                const disciplina = await response.json();
 
-                document.getElementById('nome').value = aluno.nome;
-                document.getElementById('curso').value = aluno.curso; // curso é a descrição
-                alunoEditandoId = id;
+                document.getElementById('disciplina').value = disciplina.descricao;
 
+                // Buscar o cursoId com base na descrição recebida
+                const select = document.getElementById('curso');
+                for (let option of select.options) {
+                    if (option.textContent === disciplina.curso) {
+                        select.value = option.value;
+                        break;
+                    }
+                }
+
+                disciplinaEditando = id;
                 window.scrollTo({ top: 0, behavior: 'smooth' });
             } catch (error) {
-                console.error('Erro ao carregar dados do aluno:', error);
-                alert('Erro ao carregar dados do aluno.');
+                console.error('Erro ao carregar dados da disciplina:', error);
+                alert('Erro ao carregar dados da disciplina.');
             }
         }
 
-        // Submeter formulário (criar ou atualizar)
-        document.getElementById('formAluno').addEventListener('submit', async (event) => {
-            event.preventDefault();
-
-            const nome = document.getElementById('nome').value;
-            const curso = document.getElementById('curso').value;
-
-            if (!nome || !curso) {
-                alert('Preencha todos os campos.');
-                return;
-            }
-
-            const aluno = { nome, curso };
-
-            try {
-                let response;
-
-                if (alunoEditandoId) {
-                    // PUT: Atualizar aluno existente
-                    response = await fetch(`http://localhost:5209/api/aluno/${alunoEditandoId}`, {
-                        method: 'PUT',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify(aluno)
-                    });
-                } else {
-                    // POST: Novo aluno
-                    response = await fetch('http://localhost:5209/api/aluno', {
-                        method: 'POST',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify(aluno)
-                    });
-                }
-
-                if (response.ok) {
-                    alert(alunoEditandoId ? 'Aluno atualizado com sucesso!' : 'Aluno criado com sucesso!');
-                    document.getElementById('formAluno').reset();
-                    alunoEditandoId = null;
-                    carregarAlunos();
-                } else {
-                    alert('Erro ao salvar aluno.');
-                }
-            } catch (error) {
-                console.error('Erro ao salvar aluno:', error);
-            }
-        });
-
-        async function excluirAluno(id) {
-            if (confirm('Deseja realmente excluir este aluno?')) {
+        async function excluirDisciplina(id) {
+            if (confirm('Deseja realmente excluir esta disciplina?')) {
                 try {
-                    const response = await fetch(`http://localhost:5209/api/aluno/${id}`, {
+                    const response = await fetch(`http://localhost:5209/api/disciplina/${id}`, {
                         method: 'DELETE'
                     });
 
                     if (response.ok) {
-                        alert('Aluno excluído com sucesso!');
-                        carregarAlunos();
+                        alert('Disciplina excluída com sucesso!');
+                        carregarDisciplinas();
                     } else {
-                        alert('Erro ao excluir aluno.');
+                        alert('Erro ao excluir disciplina.');
                     }
                 } catch (error) {
-                    console.error('Erro ao excluir aluno:', error);
+                    console.error('Erro ao excluir disciplina:', error);
                 }
             }
         }
 
-        // Inicialização
-        carregarCursos();
-        carregarAlunos();
-    </script>
+        document.getElementById('formDisciplina').addEventListener('submit', async (event) => {
+            event.preventDefault();
+            const descricao = document.getElementById('disciplina').value;
+            const cursoId = document.getElementById('curso').value;
 
+            if (!descricao || !cursoId) {
+                alert('Preencha todos os campos.');
+                return;
+            }
+
+            const novaDisciplina = {
+                descricao,
+                curso: cursoId // Corrigido aqui
+            };
+
+            try {
+                let response;
+                console.log(disciplinaEditando, descricao, cursoId)
+
+                if (disciplinaEditando) {
+                    response = await fetch(`http://localhost:5209/api/disciplina/${disciplinaEditando}`, {
+                        method: 'PUT',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(novaDisciplina)
+                    });
+                } else {
+                    response = await fetch('http://localhost:5209/api/disciplina', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(novaDisciplina)
+                    });
+                }
+
+                if (response.ok) {
+                    alert(disciplinaEditando ? 'Disciplina atualizada com sucesso!' : 'Disciplina criada com sucesso!');
+                    document.getElementById('formDisciplina').reset();
+                    disciplinaEditando = null;
+                    carregarDisciplinas();
+                } else {
+                    const errorText = await response.text();
+                    console.error('Erro ao salvar disciplina:', errorText);
+                    alert('Erro ao salvar disciplina: ' + errorText);
+                }
+            } catch (error) {
+                console.error('Erro ao salvar disciplina:', error);
+                alert('Erro inesperado. Veja o console.');
+            }
+        });
+
+        carregarCursos();
+        carregarDisciplinas();
+    </script>
 
     <footer class="bg-dark text-white py-4 mt-5">
         <div class="container">
@@ -239,7 +240,6 @@
                     <h5>Sistema de Aprendizagem</h5>
                     <p>O sistema de gestão educacional mais completo do mercado</p>
                 </div>
-
                 <div class="col-md-3">
                     <h5>Links Rápidos</h5>
                     <ul class="list-unstyled">
@@ -251,7 +251,6 @@
                         </li>
                     </ul>
                 </div>
-
                 <div class="col-md-3">
                     <h5>Contato</h5>
                     <ul class="list-unstyled">

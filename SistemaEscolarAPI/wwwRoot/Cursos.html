@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gestão de Alunos</title>
+    <title>Gestão de Cursos</title>
     <link rel="stylesheet" href="./css/styles-global.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
@@ -49,186 +49,152 @@
     </nav>
 
     <section class="container py-5">
-        <h2 class="mb-4">Gestão de Aluno</h2>
-        <form id="formAluno">
-            <!-- Campo Nome -->
-            <div class="mb-3">
-                <label for="nome" class="form-label">Nome</label>
-                <input type="text" class="form-control" id="nome" name="nome" placeholder="Digite o nome do aluno"
-                    required>
-            </div>
-
-            <!-- Campo Curso (seleção por descrição) -->
+        <h2 class="mb-4">Gestão de Cursos</h2>
+        <form id="formCurso">
             <div class="mb-3">
                 <label for="curso" class="form-label">Curso</label>
-                <select class="form-select" id="curso" name="curso" required>
-                    <option value="">Selecione um curso</option>
-                    <!-- Cursos carregados dinamicamente -->
-                </select>
+                <input type="text" class="form-control" id="curso" name="curso"
+                    placeholder="Digite o curso que deseja inserir" required>
             </div>
-
             <!-- Botão de envio -->
             <button type="submit" class="btn btn-primary">Salvar</button>
         </form>
     </section>
 
-    <!-- Lista de alunos -->
+    <!-- Lista de cursos -->
     <section class="container py-5">
-        <h2 class="mb-4">Lista de Alunos</h2>
-        <table class="table table-striped" id="tabelaAlunos">
+        <h2 class="mb-4">Lista de Cursos</h2>
+        <table class="table table-striped" id="tabelaCursos">
             <thead>
                 <tr>
-                    <th>Nome</th>
                     <th>Curso</th>
                     <th>Ações</th>
                 </tr>
             </thead>
             <tbody>
-                <!-- Lista de alunos será carregada aqui -->
+                <!-- Lista de cursos será carregada aqui -->
             </tbody>
         </table>
     </section>
 
     <script>
-        let alunoEditandoId = null;
+        let cursoEditando = null;
 
         async function carregarCursos() {
             try {
                 const response = await fetch('http://localhost:5209/api/curso');
                 const cursos = await response.json();
-                const selectCurso = document.getElementById('curso');
+                const tabela = document.getElementById('tabelaCursos').getElementsByTagName('tbody')[0];
+                tabela.innerHTML = '';
+
+                if (cursos.length === 0) {
+                    const tr = document.createElement('tr');
+                    tr.innerHTML = `
+                <td colspan="3" class="text-center text-muted">Nenhum curso cadastrado no momento.</td>
+            `;
+                    tabela.appendChild(tr);
+                    return;
+                }
 
                 cursos.forEach(curso => {
-                    const option = document.createElement('option');
-                    option.value = curso.descricao;
-                    option.textContent = curso.descricao;
-                    selectCurso.appendChild(option);
+                    const tr = document.createElement('tr');
+                    tr.innerHTML = `
+                <td>${curso.descricao}</td>
+                <td>
+                    <button class="btn btn-sm btn-warning me-2" onclick="editarCurso(${curso.id})">Editar</button>
+                    <button class="btn btn-sm btn-danger" onclick="excluirCurso(${curso.id})">Excluir</button>
+                </td>
+            `;
+                    tabela.appendChild(tr);
                 });
             } catch (error) {
                 console.error('Erro ao carregar cursos:', error);
             }
         }
 
-        async function carregarAlunos() {
+
+        // Editar curso
+        async function editarCurso(id) {
             try {
-                const response = await fetch('http://localhost:5209/api/aluno');
-                const alunos = await response.json();
-                const tabela = document.getElementById('tabelaAlunos').getElementsByTagName('tbody')[0];
-                tabela.innerHTML = '';
+                const response = await fetch(`http://localhost:5209/api/curso/${id}`);
+                if (!response.ok) throw new Error('Erro ao buscar curso');
+                const curso = await response.json();
 
-                if (alunos.length === 0) {
-                    const tr = document.createElement('tr');
-                    tr.innerHTML = `
-                <td colspan="3" class="text-center text-muted">Nenhum aluno cadastrado no momento.</td>
-            `;
-                    tabela.appendChild(tr);
-                    return;
-                }
-
-                alunos.forEach(aluno => {
-                    const tr = document.createElement('tr');
-                    tr.innerHTML = `
-                <td>${aluno.nome}</td>
-                <td>${aluno.curso}</td>
-                <td>
-                    <button class="btn btn-sm btn-warning me-2" onclick="editarAluno(${aluno.id})">Editar</button>
-                    <button class="btn btn-sm btn-danger" onclick="excluirAluno(${aluno.id})">Excluir</button>
-                </td>
-            `;
-                    tabela.appendChild(tr);
-                });
-            } catch (error) {
-                console.error('Erro ao carregar alunos:', error);
-            }
-        }
-
-
-        // Editar aluno
-        async function editarAluno(id) {
-            try {
-                const response = await fetch(`http://localhost:5209/api/aluno/${id}`);
-                if (!response.ok) throw new Error('Erro ao buscar aluno');
-                const aluno = await response.json();
-
-                document.getElementById('nome').value = aluno.nome;
-                document.getElementById('curso').value = aluno.curso; // curso é a descrição
-                alunoEditandoId = id;
+                document.getElementById('curso').value = curso.descricao;
+                cursoEditando = id;
 
                 window.scrollTo({ top: 0, behavior: 'smooth' });
             } catch (error) {
-                console.error('Erro ao carregar dados do aluno:', error);
-                alert('Erro ao carregar dados do aluno.');
+                console.error('Erro ao carregar dados do curso:', error);
+                alert('Erro ao carregar dados do curso.');
             }
         }
 
         // Submeter formulário (criar ou atualizar)
-        document.getElementById('formAluno').addEventListener('submit', async (event) => {
+        document.getElementById('formCurso').addEventListener('submit', async (event) => {
             event.preventDefault();
-
-            const nome = document.getElementById('nome').value;
             const curso = document.getElementById('curso').value;
 
-            if (!nome || !curso) {
+            if (!curso) {
                 alert('Preencha todos os campos.');
                 return;
             }
 
-            const aluno = { nome, curso };
+            const Curso = { descricao: curso };
 
             try {
                 let response;
 
-                if (alunoEditandoId) {
-                    // PUT: Atualizar aluno existente
-                    response = await fetch(`http://localhost:5209/api/aluno/${alunoEditandoId}`, {
+                if (cursoEditando) {
+                    // PUT: Atualizar curso existente
+                    response = await fetch(`http://localhost:5209/api/curso/${cursoEditando}`, {
                         method: 'PUT',
                         headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify(aluno)
+                        body: JSON.stringify(Curso)
                     });
                 } else {
-                    // POST: Novo aluno
-                    response = await fetch('http://localhost:5209/api/aluno', {
+                    // POST: Novo curso
+                    response = await fetch('http://localhost:5209/api/curso', {
                         method: 'POST',
                         headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify(aluno)
+                        body: JSON.stringify(Curso)
                     });
                 }
 
                 if (response.ok) {
-                    alert(alunoEditandoId ? 'Aluno atualizado com sucesso!' : 'Aluno criado com sucesso!');
-                    document.getElementById('formAluno').reset();
-                    alunoEditandoId = null;
-                    carregarAlunos();
+                    alert(cursoEditando ? 'Curso atualizado com sucesso!' : 'Curso criado com sucesso!');
+                    document.getElementById('formCurso').reset();
+                    cursoEditando = null;
+                    carregarCursos();
                 } else {
-                    alert('Erro ao salvar aluno.');
+                    alert('Erro ao salvar curso.');
                 }
             } catch (error) {
-                console.error('Erro ao salvar aluno:', error);
+                console.error('Erro ao salvar curso:', error);
             }
         });
 
-        async function excluirAluno(id) {
-            if (confirm('Deseja realmente excluir este aluno?')) {
+        async function excluirCurso(id) {
+            if (confirm('Deseja realmente excluir este curso?')) {
                 try {
-                    const response = await fetch(`http://localhost:5209/api/aluno/${id}`, {
+                    const response = await fetch(`http://localhost:5209/api/curso/${id}`, {
                         method: 'DELETE'
                     });
 
                     if (response.ok) {
-                        alert('Aluno excluído com sucesso!');
-                        carregarAlunos();
+                        alert('curso excluído com sucesso!');
+                        carregarCursos();
                     } else {
-                        alert('Erro ao excluir aluno.');
+                        alert('Erro ao excluir curso.');
                     }
                 } catch (error) {
-                    console.error('Erro ao excluir aluno:', error);
+                    console.error('Erro ao excluir curso:', error);
                 }
             }
         }
 
         // Inicialização
         carregarCursos();
-        carregarAlunos();
     </script>
 
 

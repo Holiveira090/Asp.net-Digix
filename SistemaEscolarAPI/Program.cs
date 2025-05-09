@@ -63,7 +63,7 @@ app.UseHttpsRedirection();
 // Redireciona para a página inicial (index.html)
 app.MapGet("/", context =>
 {
-    context.Response.Redirect("/index.html");
+    context.Response.Redirect("/Login.html");
     return Task.CompletedTask;
 });
 

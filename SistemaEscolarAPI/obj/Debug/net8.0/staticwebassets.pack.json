@@ -1,6 +1,14 @@
 {
   "Files": [
     {
+      "Id": "C:\\Users\\henriqueoliveira\\Desktop\\Asp.net-Digix\\SistemaEscolarAPI\\wwwroot\\Cursos.html",
+      "PackagePath": "staticwebassets\\Cursos.html"
+    },
+    {
+      "Id": "C:\\Users\\henriqueoliveira\\Desktop\\Asp.net-Digix\\SistemaEscolarAPI\\wwwroot\\Disciplinas.html",
+      "PackagePath": "staticwebassets\\Disciplinas.html"
+    },
+    {
       "Id": "C:\\Users\\henriqueoliveira\\Desktop\\Asp.net-Digix\\SistemaEscolarAPI\\wwwroot\\alunos.html",
       "PackagePath": "staticwebassets\\alunos.html"
     },
@@ -9,12 +17,20 @@
       "PackagePath": "staticwebassets\\css\\styles-global.css"
     },
     {
+      "Id": "C:\\Users\\henriqueoliveira\\Desktop\\Asp.net-Digix\\SistemaEscolarAPI\\wwwroot\\disciplina-aluno-curso.html",
+      "PackagePath": "staticwebassets\\disciplina-aluno-curso.html"
+    },
+    {
       "Id": "C:\\Users\\henriqueoliveira\\Desktop\\Asp.net-Digix\\SistemaEscolarAPI\\wwwroot\\index.html",
       "PackagePath": "staticwebassets\\index.html"
     },
     {
       "Id": "C:\\Users\\henriqueoliveira\\Desktop\\Asp.net-Digix\\SistemaEscolarAPI\\wwwroot\\js\\modal.js",
       "PackagePath": "staticwebassets\\js\\modal.js"
+    },
+    {
+      "Id": "C:\\Users\\henriqueoliveira\\Desktop\\Asp.net-Digix\\SistemaEscolarAPI\\wwwroot\\js\\script-relacao.js",
+      "PackagePath": "staticwebassets\\js\\script-relacao.js"
     },
     {
       "Id": "obj\\Debug\\net8.0\\staticwebassets\\msbuild.SistemaEscolarAPI.Microsoft.AspNetCore.StaticWebAssets.props",

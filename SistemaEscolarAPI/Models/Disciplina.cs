@@ -10,7 +10,7 @@ namespace SistemaEscolarAPI.Models
         public int Id { get; set; }
         public string Descricao { get; set; }
         public int CursoId { get; set; }
-        public Curso Curso { get; set; }
+        public Curso? Curso { get; set; }
         public ICollection<DisciplinaAlunoCurso> disciplinaAlunoCursos { get; set; }
     }
 }
