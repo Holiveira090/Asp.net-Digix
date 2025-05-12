@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aula 1 - React (CDN)</title>
+    <!-- Crossing é um atributo que indica que o recurso deve ser carregado com crendenciais (coockies, cabeçalhos http) -->
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <!-- Transcopilador que ele vai transformar as requisições js -->
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <style>
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        button {
+            margin: 5px;
+            padding: 10px;
+            cursor: pointer;
+        }
+
+        .tarefa {
+            margin: 10px 0;
+            padding: 10px;
+            border: 1px solid #ddd;
+        }
+
+        .concluida {
+            text-decoration: line-through;
+            color: #0855c9;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="root"></div>
+    <script type="text/babel">
+        const { useState } = React; // Aqui estou importando o hook, que é o estado
+        // Exemplo 1: Pegar componentes simulado
+        function Saudacao({ nome }) {
+            return <h1> Ola, {nome}!</h1>
+        }
+        // Exemplo 2: Contador com estado
+        function Contador() {
+            const [contador, setContador] = useState(0);
+            return (
+                <div>
+                    <h2>Contador</h2>
+                    <p>{contador}</p>
+                    <button onClick={() => setContador(contador + 1)}>+1</button>
+                    <button onClick={() => setContador(contador - 1)}>-1</button>
+
+                </div>
+            )
+        }
+        // Exemplo 3: Lista de tarefas
+        function ListaTarefas() {
+            const [tarefas, setTarefas] = React.useState([]);
+            const [novaTarefa, setNovaTarefa] = React.useState('');
+
+            const adicionarTarefa = () => {
+                if (novaTarefa.trim() === '') return;
+                setTarefas([...tarefas, { texto: novaTarefa, concluida: false }]);
+                setNovaTarefa('');
+            };
+
+            const marcarTarefa = (index) => {
+                const novasTarefas = [...tarefas];
+                novasTarefas[index].concluida = !novasTarefas[index].concluida;
+                setTarefas(novasTarefas);
+            };
+
+            const removerTarefa = (index) => {
+                const novasTarefas = tarefas.filter((_, i) => i !== index);
+                setTarefas(novasTarefas);
+            };
+
+            return (
+                <div>
+                    <h2>Lista de Tarefas</h2>
+                    <input
+                        type="text"
+                        value={novaTarefa}
+                        onChange={(e) => setNovaTarefa(e.target.value)}
+                        placeholder="Nova tarefa"
+                    />
+                    <button onClick={adicionarTarefa}>Adicionar</button>
+
+                    <div>
+                        {tarefas.map((tarefa, index) => (
+                            <div key={index} className={`tarefa ${tarefa.concluida ? 'concluida' : ''}`}>
+                                <span>{tarefa.texto}</span>
+                                <button onClick={() => marcarTarefa(index)}>
+                                    {tarefa.concluida ? 'Desmarcar' : 'Concluir'}
+                                </button>
+                                <button onClick={() => removerTarefa(index)}>🗑️</button>
+                            </div>
+                        ))}
+                    </div>
+                </div>
+            );
+        }
+
+        function AdicionarTextoNumero({ texto, numero }) {
+            return <h1>{texto} {numero}</h1>
+        }
+
+
+
+
+
+
+        function App() {
+            return (
+                <div className="container">
+                    <Saudacao nome="Jão" />
+                    <Contador />
+                    <ListaTarefas />
+                    <AdicionarTextoNumero texto="Teste" numero={10} />
+
+                </div>
+            )
+        }
+
+        ReactDOM.render(<App />, document.getElementById('root'));
+    </script>
+</body>
+
+</html>
+
+<!-- CDN significa Content Delivery Network, que é uma rede de servidores distribuídos responsáveis por entregar o conteúdo solicitado pelos usuários. -->

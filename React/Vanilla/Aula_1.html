@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aula 1 - Vanilla</title>
+
+    <style>
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        button {
+            margin: 5px;
+            padding: 10px;
+            cursor: pointer;
+        }
+
+        .tarefa {
+            margin: 10px 0;
+            padding: 10px;
+            border: 1px solid #ddd;
+        }
+
+        .concluida {
+            text-decoration: line-through;
+            color: #0855c9;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <!-- Exemplo 1 -->
+        <div id="saudacao-container"></div>
+        <br>
+    </div>
+
+
+    <!-- Exemplo 2 -->
+    <div id="contador-container">
+        <h2>contador</h2>
+        <p id="contador-valor">0</p>
+        <button id="contador-incrementar">+1</button>
+        <button id="contador-decrementar">-1</button>
+    </div>
+
+    <br>
+
+    <!-- Exemplo 3: Lista de tarefas -->
+    <div id="todo-container">
+        <h2>Lista de tarefas</h2>
+        <input type="text" id="nova-tarefa" placeholder="Nova tarefa">
+        <button id="adicionar-tarefa">Adicionar</button>
+        <div id="lista-tarefas"></div>
+    </div>
+
+
+    <script>
+        // Exemplo 1: Pegar componentes simulado
+        function renderizarSaudacao(nome, containerId) {
+            const container = document.getElementById(containerId);
+            container.innerHTML = `<h1>Ola, ${nome}!</h1>`;
+        }
+        renderizarSaudacao('Jão', 'saudacao-container');
+
+        // Exemplo 2: Contador com estado
+        let contador = 0;
+        const contadorValor = document.getElementById('contador-valor');
+        const atualizarContador = () => contadorValor.textContent = contador;
+        document.getElementById('contador-incrementar').addEventListener('click', () => {
+            contador++;
+            atualizarContador();
+        })
+        document.getElementById('contador-decrementar').addEventListener('click', () => {
+            contador--;
+            atualizarContador();
+        })
+
+        // Exemplo 3: Lista de tarefas
+        let tarefas = [];
+        const listaTarefas = document.getElementById('lista-tarefas')
+
+        function renderizarTarefas() {
+            listaTarefas.innerHTML = tarefas.map((tarefa, index) => `
+                <div class="tarefa ${tarefa.concluida ? 'concluida' : ''}">
+                <span>${tarefa.texto}</span>
+                <button onclick="marcarTarefa(${index})">${tarefa.concluida ? 'Desmarcar' : 'Concluir'}</button>
+                <button onclick="removerTarefa(${index})">🗑️</button>
+                </div>`
+            ).join(''); // join é usado para unir os elementos do array em uma string
+        }
+        window.marcarTarefa = (index) => {
+            tarefas[index].concluida = !tarefas[index].concluida; // aqui esta alterando o estado da tarefa
+            renderizarTarefas();
+        };
+
+        window.removerTarefa = (index) => { // Criando a função removerTarefas por indice.
+            tarefas = tarefas.filter((_, i) => i !== index) // aqui vou buscar as tarefas que eu vou remover somente pelo indice (que é o i na qual é variavel local que foi criada para representar o indice do tarefa.map)
+            renderizarTarefas();
+        };
+        document.getElementById('adicionar-tarefa').addEventListener('click', () => {
+            const input = document.getElementById('nova-tarefa');
+            const texto = input.value.trim(); // trim para remover os espaços vazios
+            if (texto) {
+                tarefas.push({texto, concluida: false});
+                input.value = '';
+                renderizarTarefas();
+            }
+        })
+    </script>
+</body>
+
+</html>
