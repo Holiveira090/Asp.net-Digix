@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Conceito 3 - JSX</title>
+    <!-- Crossorigin é um atributo que indica que o recurso deve ser carregado com credenciais (cookies, cabeçalhos HTTP) -->
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <!-- Transpilador que transforma JSX em JavaScript -->
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+</head>
+
+<body>
+    <div id="root"></div>
+
+    <!-- <script type="text/JavaScript">
+        var rootElement = document.getElementById('root');
+
+        function Tick() {
+            let currenTime = new Date().toLocaleTimeString(); // To pegando a hora por segundo
+            let element = `
+            <div>
+                <h1>Olá Mundo</h1>
+                <h2>Agora são ${currenTime}</h2>
+            </div>
+            `;
+            rootElement.innerHTML = element;
+        }
+
+        setInterval(Tick, 1000); // Aqui estou chamando a função a cada segundo
+    </script> -->
+
+    <script type="text/babel">
+        const rootElement = document.getElementById('root')
+
+        function Tick() {
+            let currentTime = new Date().toLocaleTimeString();
+            return (
+                <div>
+                    <h1>Ola Mundo</h1>
+                    <h2>Agora são {currentTime}</h2>
+                </div>
+            );
+        }
+        ReactDOM.render(<Tick />, rootElement);
+
+        setInterval(() => {
+            ReactDOM.render(<Tick />, rootElement);
+        }, 1000);
+    </script>
+
+</body>
+
+</html>

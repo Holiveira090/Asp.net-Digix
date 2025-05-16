@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aula 2 - Vanilha Js</title>
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        form {
+            margin: 20px 0;
+            padding: 20px;
+            border: 1px solid #ddd;
+        }
+
+        input,
+        button {
+            margin: 5px;
+            padding: 8px;
+        }
+
+        .error {
+            color: red;
+            font-size: 0.8em;
+        }
+
+        .modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.5);
+            display: none;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal-content {
+            background: white;
+            padding: 20px;
+            border-radius: 5px;
+        }
+
+        .tab-button {
+            padding: 10px 15px;
+            cursor: pointer;
+        }
+
+        .tab-button.active {
+            background: #3498db;
+            color: white;
+        }
+
+        .task {
+            margin: 5px 0;
+            padding: 10px;
+            border: 1px solid #eee;
+        }
+
+        .completed {
+            text-decoration: line-through;
+            color: #888;
+        }
+    </style>
+
+</head>
+
+<body>
+    <div id="root"></div>
+    <script type="text/babel">
+        function WindowSize() {
+            const [size, setSize] = React.useState({
+                width: window.innerWidth,
+                height: window.innerHeight
+            });
+
+            React.useEffect(() => {
+                const handleResize = () => { // aqui vamos atualizar o tamanho da janela
+                    setSize({
+                        width: window.innerWidth,//window é um objeto global que representa a janela do navegador, innerWidth e innerHeight são propriedades que retornam a largura e altura da janela de visualização, respectivamente.
+                        height: window.innerHeight
+                    });
+                };
+
+                window.addEventListener('resize', handleResize);
+                return () => window.removeEventListener('resize', handleResize);
+            }, []); // [] significa que o efeito só será executado uma vez, quando o componente for montado.
+            // O retorno da função de efeito é uma função de limpeza que remove o event listener quando o componente é desmontado.
+
+            return <div>Tamanho da Janela: {size.width}x{size.height}</div>;
+        }
+
+        // Login Validacao
+        function LoginForm() {
+            const [form, setForm] = useState(
+                {
+                    email: '',
+                    passaword: ''
+                }
+            );
+
+            const [erros, setErrors] = useState({}); // O estado desse componente/variavel é valor vazio 
+            const Validate = () => {
+                const newErros = {} // Objeto para armazenar os erros
+                if (!form.email.includes('@')) {
+                    newErros.email = 'Email Invalido';
+                }
+                if (!form.passaword.length < 6) {
+                    newErros.email = 'Senha muito curta';
+                }
+                setErrors(newErros); //Atualizar os Estados dos erros
+                return Object.keys(newErros).length === 0; //  Retornando vazio pois não ouve erro
+
+            };
+
+            const handleSubmit = (e) => {
+                e.preventDefault();
+                if (Validate()) {
+                    alert(`Login com: ${form.email}`);
+                }
+            };
+
+            //             Como funciona:
+            // onChange é chamado toda vez que o valor do input muda.
+            // (e) => setForm({...form, email: e.target.value}) é uma função que:
+            // Usa o operador spread (...form) para copiar todos os valores atuais do objeto form.
+            // Atualiza apenas o campo email com o novo valor digitado (e.target.value).
+            // Assim, o estado form fica sempre atualizado com o que o usuário digitou, sem perder os outros campos (como password).
+
+            return (
+                <form onSubmit={handleSubmit}>
+                    <div>
+                        <input type="email"
+                            value={form.email}
+                            onChange={(e) => setForm({ ...form, email: e.target.value })} // form é operador spread, que copia as propirdade do objeto form, e especifca o valor input
+                            placeholder="Email"
+                        />
+                        <div>
+                            <input
+                                type="password"
+                                value={form.password}
+                                onChange={(e) => setForm({ ...form, password: e.target.value })}
+                                placeholder="Senha"
+                            />
+                            {errors.password && <div className="error">{errors.password}</div>}
+                        </div>
+                        <button type="submit">Entrar</button>
+
+
+                    </div>
+                </form>
+            )
+        }
+
+        function App() {
+            return (
+                <div className="container">
+                    <h1>Aula 2</h1>
+
+                    <section>
+                        <WindowSize />
+                    </section>
+                </div>
+            );
+
+        }
+
+        ReactDOM.render(<App />, document.getElementById('root'));
+    </script>
+
+</body>
+
+</html>

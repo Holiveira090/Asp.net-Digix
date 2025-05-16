@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Conceito 2 - JSX</title>
+    <!-- Crossorigin é um atributo que indica que o recurso deve ser carregado com credenciais (cookies, cabeçalhos HTTP) -->
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <!-- Transpilador que transforma JSX em JavaScript -->
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+</head>
+
+<body>
+    <div id="root"></div>
+
+    <script type="text/babel">
+        // function Welcome(props) {
+        //     return <h1>Bem-vindo</h1>;
+        // }
+
+        // function Welcome(props) {
+        //     return <h1>{props.nome} tem {parseInt(props.idade)} anos</h1>;
+        // }
+
+        // const rootElement = document.getElementById('root');
+        // // ReactDOM.render(<Welcome />, rootElement);
+        // ReactDOM.render(<Welcome nome="teste" idade="20"/>, rootElement);
+        function Welcome(props) {
+            return <h1>{props.nome} tem {parseInt(props.idade)} anos</h1>;
+        }
+
+        const App = () => {
+            return (
+                <div>
+                    <Welcome nome="Henrique" idade="20"/>
+                    <Welcome nome="Will" idade="21"/>
+                    <Welcome nome="Gravena" idade="20"/>
+                </div>
+            );
+        }
+        const rootElement = document.getElementById('root');
+        // ReactDOM.render(<Welcome />, rootElement);
+        ReactDOM.render(<App />, rootElement);
+    </script>
+</body>
+
+</html>
